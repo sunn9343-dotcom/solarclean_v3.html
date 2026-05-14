@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SolarClean">
+<title>SolarClean</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:#0a0f1e;color:#e8f0ff;padding:0 0 70px}
+.hd{padding:48px 16px 12px;display:flex;justify-content:space-between;align-items:center}
+.ht{font-size:20px;font-weight:600}
+.hs{font-size:11px;color:#4a6080;margin-top:2px}
+.badge{display:flex;align-items:center;gap:5px;background:#101828;border:1px solid #1e2d45;border-radius:20px;padding:5px 10px}
+.dot{width:7px;height:7px;border-radius:50%;background:#e06060;transition:background .3s}
+.dot.on{background:#22c55e}
+.bt{font-size:11px;color:#4a6080}
+.lbl{font-size:10px;color:#4a6080;letter-spacing:.1em;text-transform:uppercase;padding:0 16px;margin:12px 0 6px}
+.card{margin:0 12px 8px;background:#101828;border:1px solid #1e2d45;border-radius:14px;padding:12px 14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:0 12px 8px}
+.stat{background:#101828;border:1px solid #1e2d45;border-radius:10px;padding:9px;text-align:center}
+.sv{font-size:15px;font-weight:500}
+.su{font-size:9px;color:#4a6080}
+.sl{font-size:9px;color:#4a6080;margin-top:2px}
+.mbtn{margin:0 12px 8px;background:#0a1e35;border:1px solid #1a5080;border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .2s}
+.mbtn.run{background:#0a2a10;border-color:#1a6030}
+.mbtn:active{transform:scale(.98)}
+.mdot{width:8px;height:8px;border-radius:50%;background:#1a5080}
+.mbtn.run .mdot{background:#22c55e;animation:p 1s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+.mt{font-size:14px;font-weight:500;color:#60a0e0}
+.mbtn.run .mt{color:#40c870}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 12px 8px}
+.btn{background:#101828;border:1px solid #1e2d45;border-radius:10px;padding:12px;text-align:center;cursor:pointer;transition:all .15s}
+.btn:active{transform:scale(.97)}
+.btn.bl{background:#0a1e35;border-color:#1a5080}
+.btn.rd{background:#1a0a0a;border-color:#5c1a1a}
+.bi{font-size:18px;margin-bottom:3px}
+.bl2{font-size:11px;color:#8899bb}
+.btn.bl .bl2{color:#60a0e0}
+.btn.rd .bl2{color:#e06060}
+.wrow{display:flex;gap:8px;margin:0 12px 8px}
+.wb{flex:1;background:#081828;border:1px solid #0f4060;border-radius:10px;padding:11px;text-align:center;cursor:pointer;transition:all .2s}
+.wb:active{transform:scale(.97)}
+.wb.on{background:#0a2535;border-color:#1a6080}
+.wi{font-size:20px;margin-bottom:3px}
+.wl{font-size:11px;color:#40a0d0}
+.ws2{font-size:9px;color:#4a6080;margin-top:2px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#101828;border-top:1px solid #1e2d45;display:flex;justify-content:space-around;padding:8px 0 20px}
+.ni{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 16px}
+.nicon{font-size:18px}
+.nlbl{font-size:9px;color:#4a6080}
+.ni.on .nlbl{color:#60a0e0}
+.ndot{width:4px;height:4px;border-radius:50%;background:#60a0e0;display:none;margin:2px auto 0}
+.ni.on .ndot{display:block}
+.pg{display:none}
+.pg.show{display:block}
+.ptitle{font-size:18px;font-weight:500;padding:48px 16px 16px}
+.tpick{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 0}
+.tc{display:flex;flex-direction:column;align-items:center;gap:4px}
+.ta{font-size:18px;color:#4a6080;cursor:pointer;padding:3px 12px;border-radius:6px;background:#101828;border:1px solid #1e2d45}
+.tv{font-size:32px;font-weight:500;min-width:60px;text-align:center}
+.tsep{font-size:32px;color:#4a6080;margin-bottom:32px}
+.apm{display:flex;flex-direction:column;gap:4px;margin-left:6px}
+.ab{background:#101828;border:1px solid #1e2d45;border-radius:6px;padding:6px 12px;font-size:12px;color:#4a6080;cursor:pointer}
+.ab.on{background:#0a1e35;border-color:#1a5080;color:#60a0e0}
+.drow{display:flex;gap:5px;justify-content:space-between}
+.db{width:38px;height:38px;border-radius:50%;background:#101828;border:1px solid #1e2d45;display:flex;align-items:center;justify-content:center;font-size:11px;color:#4a6080;cursor:pointer}
+.db.on{background:#0a1e35;border-color:#1a5080;color:#60a0e0}
+.mg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mb2{background:#101828;border:1px solid #1e2d45;border-radius:10px;padding:11px;cursor:pointer}
+.mb2.on{background:#0a1e35;border-color:#1a5080}
+.mn{font-size:12px;font-weight:500}
+.md2{font-size:10px;color:#4a6080;margin-top:1px}
+.sl2{display:flex;flex-direction:column;gap:6px}
+.si{display:flex;align-items:center;justify-content:space-between;background:#0d1828;border:1px solid #1a2840;border-radius:8px;padding:9px 11px}
+.st{font-size:14px;font-weight:500}
+.sd{font-size:10px;color:#4a6080;margin-top:1px}
+.sm{font-size:10px;color:#2a6090;background:#081828;border:1px solid #0f4060;border-radius:5px;padding:2px 7px}
+.sdel{color:#4a6080;cursor:pointer;padding:4px 8px}
+.sbtn{width:100%;background:#0a1e35;border:1px solid #1a5080;border-radius:12px;padding:14px;color:#60a0e0;font-size:14px;font-weight:500;cursor:pointer;text-align:center;margin-top:12px}
+.toast{background:#0a2510;border:1px solid #1a5030;border-radius:8px;padding:9px 12px;color:#40c870;font-size:12px;text-align:center;margin-top:8px;display:none}
+.pbar{height:3px;background:#1a2540;border-radius:2px;margin:10px 0 5px;overflow:hidden}
+.pfill{height:100%;border-radius:2px;background:linear-gradient(90deg,#378ADD,#00d4ff);width:72%}
+.pr{display:flex;justify-content:space-between}
+.pl{font-size:10px;color:#4a6080}
+.prr{font-size:10px;color:#40a0d0}
+</style>
+</head>
+<body>
+
+<div id="p0">
+<div class="hd">
+  <div><div class="ht">SolarClean</div><div class="hs">ระบบล้างแผงอัตโนมัติ</div></div>
+  <div class="badge"><div class="dot" id="dot"></div><span class="bt" id="btt">กำลังเชื่อมต่อ...</span></div>
+</div>
+
+<div class="lbl">แผงโซล่าเซลล์</div>
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <div><div style="font-size:14px;font-weight:500">แผง A - หลังบ้าน</div><div style="font-size:11px;color:#4a6080;margin-top:2px">ประสิทธิภาพปัจจุบัน</div></div>
+    <div style="font-size:11px;color:#22c55e;background:#0d2a1a;border:1px solid #1a5c30;border-radius:20px;padding:3px 10px">เปิดใช้</div>
+  </div>
+  <div class="pbar"><div class="pfill"></div></div>
+  <div class="pr"><span class="pl">72% Efficiency</span><span class="prr">ล้างล่าสุด: 2 วันก่อน</span></div>
+</div>
+
+<div class="g3">
+  <div class="stat"><div class="sv">3.2<span class="su">kW</span></div><div class="sl">พลังงาน</div></div>
+  <div class="stat"><div class="sv" id="pv">0<span class="su">%</span></div><div class="sl">ตำแหน่ง</div></div>
+  <div class="stat"><div class="sv" id="tv">0<span class="su">s</span></div><div class="sl">เวลา</div></div>
+</div>
+
+<div class="lbl">ควบคุมการล้าง</div>
+<div class="mbtn" id="mb" onclick="tClean()">
+  <div class="mdot" id="md"></div>
+  <span class="mt" id="mt">เริ่มล้างแผง</span>
+</div>
+
+<div class="g2">
+  <div class="btn bl" onclick="cmd('left')"><div class="bi">&#9664;</div><div class="bl2">เลื่อนซ้าย</div></div>
+  <div class="btn bl" onclick="cmd('right')"><div class="bi">&#9654;</div><div class="bl2">เลื่อนขวา</div></div>
+  <div class="btn rd" onclick="cmd('emergency')"><div class="bi">&#9632;</div><div class="bl2">หยุดฉุกเฉิน</div></div>
+  <div class="btn" onclick="cmd('reset')"><div class="bi">&#8635;</div><div class="bl2">รีเซ็ต</div></div>
+</div>
+
+<div class="lbl">ระบบน้ำ</div>
+<div class="wrow">
+  <div class="wb" id="bw" onclick="tWater()"><div class="wi">&#128167;</div><div class="wl">ปล่อยน้ำ</div><div class="ws2" id="ws">ปิดอยู่</div></div>
+  <div class="wb" id="bs" onclick="tSoap()"><div class="wi">&#129532;</div><div class="wl">น้ำ+น้ำยา</div><div class="ws2" id="ss">ปิดอยู่</div></div>
+</div>
+</div>
+
+<div class="pg" id="p1">
+<div class="ptitle">ตั้งเวลา</div>
+<div class="card">
+  <div class="tpick">
+    <div class="tc"><div class="ta" onclick="ch(1)">+</div><div class="tv" id="sh">07</div><div class="ta" onclick="ch(-1)">-</div></div>
+    <div class="tsep">:</div>
+    <div class="tc"><div class="ta" onclick="cm(1)">+</div><div class="tv" id="sm">00</div><div class="ta" onclick="cm(-1)">-</div></div>
+    <div class="apm"><div class="ab on" id="am" onclick="sap('AM')">AM</div><div class="ab" id="pm" onclick="sap('PM')">PM</div></div>
+  </div>
+</div>
+<div class="card" style="margin-top:8px">
+  <div class="drow">
+    <div class="db on" onclick="this.classList.toggle('on')">จ</div>
+    <div class="db" onclick="this.classList.toggle('on')">อ</div>
+    <div class="db on" onclick="this.classList.toggle('on')">พ</div>
+    <div class="db" onclick="this.classList.toggle('on')">พฤ</div>
+    <div class="db on" onclick="this.classList.toggle('on')">ศ</div>
+    <div class="db" onclick="this.classList.toggle('on')">ส</div>
+    <div class="db" onclick="this.classList.toggle('on')">อา</div>
+  </div>
+</div>
+<div class="card" style="margin-top:8px">
+  <div class="mg2">
+    <div class="mb2 on" id="mw" onclick="smode('w')"><div class="wi">&#128167;</div><div class="mn">น้ำเปล่า</div><div class="md2">ประหยัดน้ำยา</div></div>
+    <div class="mb2" id="ms" onclick="smode('s')"><div class="wi">&#129532;</div><div class="mn">น้ำ+น้ำยา</div><div class="md2">สะอาดลึกขึ้น</div></div>
+  </div>
+</div>
+<div class="card" style="margin-top:8px">
+  <div class="sl2" id="slist">
+    <div class="si"><div><div class="st">06:00 AM</div><div class="sd">จ-พ-ศ</div></div><div class="sm">น้ำเปล่า</div><div class="sdel" onclick="this.closest('.si').remove()">&#10005;</div></div>
+  </div>
+</div>
+<div class="sbtn" onclick="saveSched()">+ บันทึกตาราง</div>
+<div class="toast" id="toast">&#10003; บันทึกสำเร็จ</div>
+</div>
+
+<div class="pg" id="p2">
+<div class="ptitle">ตั้งค่า</div>
+<div class="card">
+  <div style="padding:10px 0;border-bottom:1px solid #1e2d45">
+    <div style="font-size:13px;font-weight:500">IP ของ ESP32</div>
+    <div style="font-size:13px;color:#60a0e0;margin-top:4px;font-weight:500">172.16.0.200</div>
+    <div style="font-size:11px;color:#4a6080;margin-top:2px">HTTP: http://172.16.0.200</div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0">
+    <div><div style="font-size:13px;font-weight:500">ความเร็วมอเตอร์</div><div style="font-size:11px;color:#4a6080;margin-top:2px">ปรับความเร็วสายพาน</div></div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <input type="range" min="50" max="255" value="200" style="width:100px;accent-color:#378ADD" oninput="setSpd(this.value)">
+      <span style="font-size:12px;color:#60a0e0;min-width:28px" id="spv">200</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="nav">
+  <div class="ni on" id="n0" onclick="sp(0)"><div class="nicon">&#9889;</div><div class="nlbl">ควบคุม</div><div class="ndot"></div></div>
+  <div class="ni" id="n1" onclick="sp(1)"><div class="nicon">&#8987;</div><div class="nlbl">ตั้งเวลา</div><div class="ndot"></div></div>
+  <div class="ni" id="n2" onclick="sp(2)"><div class="nicon">&#9881;</div><div class="nlbl">ตั้งค่า</div><div class="ndot"></div></div>
+</div>
+
+<script>
+var IP = 'http://172.16.0.200';
+var cl=false, wo=false, so=false;
+var hr=7, mn=0, ap='AM', mo='w';
+var connected = false;
+var failCount = 0;
+
+// Fetch พร้อม timeout
+function fetchCmd(path) {
+  var ctrl = new AbortController();
+  var tid = setTimeout(function(){ ctrl.abort(); }, 3000);
+  return fetch(IP+path, {signal:ctrl.signal, mode:'cors'})
+    .then(function(r){ clearTimeout(tid); return r.json(); })
+    .then(function(d){ updateUI(d); failCount=0; setConn(true); })
+    .catch(function(){ clearTimeout(tid); failCount++; if(failCount>2) setConn(false); });
+}
+
+function cmd(c) { fetchCmd('/'+c); }
+
+function tClean() {
+  cl = !cl;
+  fetchCmd(cl ? '/start' : '/stop');
+}
+
+function tWater() { wo=!wo; fetchCmd('/water?v='+(wo?1:0)); }
+function tSoap()  { so=!so; fetchCmd('/soap?v='+(so?1:0)); }
+function setSpd(v) { document.getElementById('spv').textContent=v; fetchCmd('/speed?v='+v); }
+
+function setConn(on) {
+  connected = on;
+  document.getElementById('dot').className = 'dot'+(on?' on':'');
+  document.getElementById('btt').textContent = on ? 'เชื่อมต่อแล้ว' : 'ไม่ได้เชื่อมต่อ';
+}
+
+function updateUI(d) {
+  if (d.cleaning !== undefined) {
+    cl = d.cleaning;
+    document.getElementById('mb').className = 'mbtn'+(cl?' run':'');
+    document.getElementById('mt').textContent = cl ? 'กำลังล้างแผง...' : 'เริ่มล้างแผง';
+  }
+  if (d.water !== undefined) {
+    wo = d.water;
+    document.getElementById('bw').className = 'wb'+(wo?' on':'');
+    document.getElementById('ws').textContent = wo ? 'เปิดอยู่' : 'ปิดอยู่';
+  }
+  if (d.soap !== undefined) {
+    so = d.soap;
+    document.getElementById('bs').className = 'wb'+(so?' on':'');
+    document.getElementById('ss').textContent = so ? 'เปิดอยู่' : 'ปิดอยู่';
+  }
+  if (d.uptime !== undefined) {
+    document.getElementById('tv').innerHTML = d.uptime+'<span class="su">s</span>';
+  }
+}
+
+// Poll ทุก 2 วินาที
+function poll() { fetchCmd('/status'); }
+setInterval(poll, 2000);
+poll();
+
+function sp(n) {
+  for(var i=0;i<3;i++){
+    document.getElementById('p'+i).className=(i===n)?'pg show':'pg';
+    document.getElementById('n'+i).className=(i===n)?'ni on':'ni';
+  }
+}
+function pad(n){return String(n).padStart(2,'0')}
+function ch(d){hr=((hr-1+d+12)%12)+1;document.getElementById('sh').textContent=pad(hr)}
+function cm(d){mn=(mn+d*5+60)%60;document.getElementById('sm').textContent=pad(mn)}
+function sap(v){ap=v;document.getElementById('am').className='ab'+(v==='AM'?' on':'');document.getElementById('pm').className='ab'+(v==='PM'?' on':'')}
+function smode(m){mo=m;document.getElementById('mw').className='mb2'+(m==='w'?' on':'');document.getElementById('ms').className='mb2'+(m==='s'?' on':'')}
+function saveSched(){
+  var days=[...document.querySelectorAll('.db.on')].map(function(d){return d.textContent});
+  var el=document.createElement('div');el.className='si';
+  el.innerHTML='<div><div class="st">'+pad(hr)+':'+pad(mn)+' '+ap+'</div><div class="sd">'+days.join('-')+'</div></div><div class="sm">'+(mo==='w'?'น้ำเปล่า':'น้ำ+น้ำยา')+'</div><div class="sdel" onclick="this.closest(\'.si\').remove()">&#10005;</div>';
+  document.getElementById('slist').appendChild(el);
+  var t=document.getElementById('toast');t.style.display='block';setTimeout(function(){t.style.display='none'},2000);
+}
+</script>
+</body>
+</html>
